@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валютный калькулятор</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        p { color: #7f8c8d; margin-bottom: 20px; }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background-color: #219150;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Конвертер валют</h1>
+    <p>Нажмите на кнопку, чтобы мгновенно рассчитать стоимость покупки.</p>
+    <button onclick="startCalculation()">Рассчитать покупку</button>
+</div>
+
+<script>
+    function getSafeNumber(message) {
+        while (true) {
+            let input = prompt(message + "\n(Для выхода введите 'стоп')");
+            
+            if (input === null || input.toLowerCase() === 'стоп') {
+                return 'exit';
+            }
+            
+            let value = parseFloat(input.replace(',', '.'));
+            
+            if (!isNaN(value) && isFinite(value) && value >= 0) {
+                return value;
+            }
+            
+            alert("Ошибка! Пожалуйста, введите корректное число.");
+        }
+    }
+
+    function startCalculation() {
+        let amount = getSafeNumber("Введите количество покупаемой валюты:");
+        if (amount === 'exit') return;
+        
+        let rate = getSafeNumber("Введите курс обмена за 1 единицу:");
+        if (rate === 'exit') return;
+        
+        let total = amount * rate;
+        
+        alert(`Нужно заплатить: ${total.toFixed(2)}`);
+        
+        if (confirm("Хотите сделать еще один расчет?")) {
+            startCalculation();
+        }
+    }
+</script>
+
+</body>
+</html>
